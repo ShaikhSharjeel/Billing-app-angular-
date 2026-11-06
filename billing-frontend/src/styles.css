@@ -1,0 +1,104 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-brand: #2f5bea;
+  --color-brand-dark: #244bd0;
+}
+
+/* ---------- Base (plain HTML elements) ---------- */
+@layer base {
+  body { @apply bg-slate-100 text-sm text-slate-800 antialiased; }
+  a { @apply text-brand no-underline; }
+  h1 { @apply text-xl font-semibold sm:text-2xl; }
+  h3 { @apply mb-3 text-base font-semibold; }
+  h4 { @apply mb-2 mt-4 font-semibold; }
+
+  table { @apply w-full border-collapse; }
+  th { @apply whitespace-nowrap border-b border-slate-200 px-2.5 py-2 text-left text-xs font-semibold uppercase text-slate-500; }
+  td { @apply border-b border-slate-200 px-2.5 py-2 align-middle; }
+
+  input, select {
+    @apply w-full rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm outline-none
+           focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:bg-slate-100;
+  }
+  label { @apply flex flex-col gap-1 text-xs text-slate-500; }
+}
+
+/* ---------- Reusable pieces used by the Angular templates ---------- */
+@layer components {
+  /* ===== layout: mobile = top bar + slide-in menu, desktop = fixed sidebar ===== */
+  .shell { @apply flex min-h-screen flex-col md:flex-row; }
+
+  .topbar { @apply sticky top-0 z-30 flex items-center gap-3 bg-slate-900 px-4 py-3 font-bold text-white md:hidden; }
+  .backdrop { @apply fixed inset-0 z-30 bg-black/40 md:hidden; }
+
+  .side {
+    @apply fixed left-0 top-0 z-40 flex h-screen w-64 shrink-0 -translate-x-full flex-col overflow-y-auto
+           bg-slate-900 py-4 text-slate-300 transition-transform duration-200
+           md:sticky md:w-56 md:translate-x-0;
+  }
+  .side.open { @apply translate-x-0; }
+  .brand { @apply px-5 pb-4 text-lg font-bold text-white; }
+  .side nav { @apply flex flex-1 flex-col; }
+  .side nav a { @apply px-5 py-2.5 text-slate-300 hover:bg-slate-800; }
+  .side nav a.active { @apply bg-brand text-white; }
+  .who { @apply flex flex-col gap-1.5 border-t border-slate-700 px-5 pt-3; }
+  .main { @apply min-w-0 flex-1 p-3 sm:p-6; }
+
+  .page-head { @apply mb-4 flex flex-wrap items-center justify-between gap-3; }
+  .card { @apply mb-4 overflow-x-auto rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4; }
+  /* chhoti screen par table scroll hoti hai, pichakti nahi */
+  .card table { @apply min-w-[520px]; }
+  .two-col .card table { @apply min-w-0; }
+
+  .toolbar { @apply mb-3 flex flex-wrap items-center gap-2; }
+  .toolbar input, .toolbar select { @apply w-full sm:w-auto; }
+  .actions { @apply flex flex-wrap gap-2; }
+
+  /* buttons */
+  .btn { @apply inline-block cursor-pointer rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-800 hover:bg-slate-100 disabled:cursor-default disabled:opacity-60; }
+  .btn.primary { @apply border-brand bg-brand text-white hover:bg-brand-dark; }
+  .btn.danger { @apply border-red-500 text-red-600 hover:bg-red-50; }
+  .btn.sm { @apply px-2.5 py-1 text-xs; }
+  .topbar .btn { @apply bg-transparent text-white hover:bg-slate-800; }
+
+  /* forms */
+  .form-grid { @apply grid items-end gap-3; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); }
+  .form-grid h3, .wide { grid-column: 1 / -1; }
+  .num { @apply w-24 text-right; }
+
+  /* text helpers */
+  .r { @apply text-right; }
+  .muted { @apply text-slate-500; }
+  .low { @apply font-semibold text-red-600; }
+  .err { @apply my-1 text-red-600; }
+  .ok { @apply my-1 text-emerald-600; }
+
+  /* status tags */
+  .tag { @apply whitespace-nowrap rounded-full bg-slate-200 px-2 py-0.5 text-xs font-normal; }
+  .tag.Paid { @apply bg-emerald-100 text-emerald-800; }
+  .tag.Unpaid { @apply bg-red-100 text-red-800; }
+  .tag.PartiallyPaid { @apply bg-amber-100 text-amber-800; }
+  .tag.Cancelled { @apply bg-slate-200 text-slate-600; }
+
+  /* dashboard */
+  .cards { @apply mb-4 grid gap-3; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); }
+  .stat { @apply flex flex-col gap-1.5 rounded-xl border border-slate-200 bg-white p-3.5 shadow-sm; }
+  .stat span { @apply text-xs text-slate-500; }
+  .stat b { @apply text-lg sm:text-xl; }
+  .two-col { @apply grid grid-cols-1 gap-4 lg:grid-cols-2; }
+  .bar-row { @apply my-1 flex items-center gap-2; }
+  .bar-label { @apply w-14 shrink-0 text-xs text-slate-500; }
+  .bar { @apply h-3 min-w-[2px] rounded-sm bg-brand; }
+  .bar-val { @apply whitespace-nowrap text-xs; }
+
+  /* invoice totals + pager */
+  .totals { @apply ml-auto mt-4 w-full max-w-xs; }
+  .totals div { @apply flex justify-between py-1; }
+  .totals .grand { @apply mt-1 border-t-2 border-slate-800 pt-2 text-base; }
+  .pager { @apply mt-3 flex items-center justify-end gap-3; }
+
+  /* login / signup */
+  .login-wrap { @apply grid min-h-screen place-items-center p-4; }
+  .login { @apply flex w-full max-w-sm flex-col gap-3.5; }
+}
